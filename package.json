@@ -1,0 +1,22 @@
+{
+  "name": "jsds",
+  "version": "1.0.0",
+  "description": "A collection of datastructures for production, includes multiple standard implementations depending on use case",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "ned-park",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.22.20",
+    "@babel/preset-typescript": "^7.23.0",
+    "@types/jest": "^29.5.5",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "typescript": "^5.2.2"
+  }
+}
