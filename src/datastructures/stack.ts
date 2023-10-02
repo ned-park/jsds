@@ -35,8 +35,27 @@ export default class Stack<T> {
     return tmp.val;
   }
 
+  peek(): T | undefined {
+    if (!this.tail) {
+      return undefined;
+    }
+
+    return this.tail.val;
+  }
+
   size(): number {
     return this.length;
+  }
+
+  toString(): string {
+    let vals: T[] = new Array(this.size());
+    let curr = this.tail;
+    for (let i = vals.length-1; i >= 0 && curr; i--) {
+      vals[i] = curr.val;
+      curr = curr.back;
+    }
+
+    return vals.join(' <- ');
   }
 
 }
