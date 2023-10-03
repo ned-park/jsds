@@ -5,9 +5,9 @@ type Node<T> = {
 }
 
 export default class Deque<T> {
-  private head?: Node<T>;
-  private tail?: Node<T>;
-  private length: number;
+  protected head?: Node<T>;
+  protected tail?: Node<T>;
+  protected length: number;
 
   constructor() {
     this.head = undefined;
