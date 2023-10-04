@@ -46,10 +46,13 @@ describe('Deque tests', () => {
     const deque = new Deque<number>();
     expect(deque.shift()).toEqual(undefined);
     deque.push(1);
+    
     expect(deque.shift()).toEqual(1);
+    expect(deque.size()).toEqual(0);
     deque.push(2);
     deque.push(1);
     expect(deque.shift()).toEqual(2);
+    expect(deque.size()).toEqual(1);
     deque.unshift(3);
     expect(deque.shift()).toEqual(3);
     expect(deque.shift()).toEqual(1);
