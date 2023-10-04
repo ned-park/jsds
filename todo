@@ -1,0 +1,13 @@
+Refactor
+    Change front and back in Deque to first and last or head and tail?
+    Consider next and previous instead of fwd and rev for pointers
+
+
+Feature Requests
+    Consider adding removeNode method to DoublyLinkedList
+    Consider adding getNodeIndex method to DoublyLinkedList
+
+Features
+    Generalize traversals for getNodes and getNodesInReverse to work from any
+        node by adding a node parameter defaulting to head and tail respective
+
