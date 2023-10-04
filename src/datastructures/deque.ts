@@ -1,5 +1,5 @@
-type Node<T> = {
-  val: T | undefined,
+export type Node<T> = {
+  val: T,
   fwd?: Node<T>,
   rev?: Node<T>
 }
@@ -53,9 +53,7 @@ export default class Deque<T> {
     const tmp = this.head;
     this.head = tmp.fwd;
     tmp.fwd = undefined;
-    if (this.head) {
-      this.head.rev = undefined;
-    }
+    this.head!.rev = undefined; // length >= 2 => new this.head exists
 
     --this.length;
     return tmp.val;
