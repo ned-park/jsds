@@ -292,16 +292,14 @@ describe('DoublyLinkedList tests for non-inherited methods', () => {
 
   test('traverse traverseBackwards are consistent with each other', () => {
     expect(list.traverse().join(',')).toEqual(list.traverseBackwards().reverse().join(','));
-    list.push(0);
-    list.unshift(-1);
-    list.insertAt(0.5, 1);
-    list.push(2);
-    list.push(3);
-    list.unshift(-2);
+    list.push(0); // [0]
+    list.unshift(-1); // [-1, 0]
+    list.insertAt(0.5, 1); // [-1, 0.5, 0]
+    list.push(2); 
+    list.push(3); // [-1, 0.5, 0, 2, 3]
+    list.unshift(-2); // [-2, -1, 0.5, 0, 2, 3]
     expect(list.traverse().join(',')).toEqual(list.traverseBackwards().reverse().join(','));
-    //-2, -1, 0, 0.5, 2, 3
-    list.removeAt(3);
-    //-2, -1, 0, 2, 3
+    list.removeAt(2);
     expect(list.traverse().join(',')).toEqual(list.traverseBackwards().reverse().join(','));
     list.removeAt(0);
     expect(list.traverse().join(',')).toEqual(list.traverseBackwards().reverse().join(','));
