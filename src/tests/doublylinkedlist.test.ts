@@ -1,5 +1,5 @@
 import { DoublyLinkedList } from "../index";
-import { ListNode } from "src/datastructures/types/listnode";
+import { ListNode } from "src/types/listnode";
 
 // Since these are already covered by Deque tests, they aren't necessary.
 // Although, in the event that the implementation stop inheriting from 
@@ -193,6 +193,9 @@ describe('DoublyLinkedList tests for non-inherited methods', () => {
     const arr = [...list];
     expect(arr.every((n, i) => n == nodes[i])).toEqual(true);
     expect(list.traverse().join(',')).toEqual(list.traverseBackwards().reverse().join(','));
+
+    expect(() => list.insertNodeAt(null, 0)).toThrowError('Parameter node cannot be null');
+
   });
 
   test('insertAt index works correctly', () => {
@@ -237,9 +240,9 @@ describe('DoublyLinkedList tests for non-inherited methods', () => {
     expect(() => list.removeAt(-1)).toThrowError("Index out of bounds");
     expect(() => list.removeAt(list.size())).toThrowError("Index out of bounds");
     expect(list.traverse().join(',')).toEqual(list.traverseBackwards().reverse().join(','));
-    //-2, -1, 0, 0.5, 2, 3
-    list.removeAt(3);
-    //-2, -1, 0, 2, 3
+    //-2, -1, 0.5, 0, 2, 3
+    list.removeAt(2);
+    //-2, -1, 0.5, 0, 2, 3
     expect(list.traverse().join(',')).toEqual(list.traverseBackwards().reverse().join(','));
     list.removeAt(0);
     expect(list.traverse().join(',')).toEqual(list.traverseBackwards().reverse().join(','));
@@ -341,7 +344,8 @@ describe('DoublyLinkedList tests for non-inherited methods', () => {
       expect(arr[i]).toEqual(rra[rra.length - 1 - i]);
     }
 
-    list.removeAt(3);
+    expect(forwardNodes.next().done).toEqual(true);
+    expect(backwardNodes.next().done).toEqual(true);
 
   });
 
