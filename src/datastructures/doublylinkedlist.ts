@@ -41,7 +41,6 @@ export default class DoublyLinkedList<T> extends Deque<T> {
       curr = curr!.next;
     }
 
-    console.log(curr!.val)
     node.next = curr;
     node.prev = curr!.prev;
 
