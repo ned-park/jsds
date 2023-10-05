@@ -1,5 +1,5 @@
 import { DoublyLinkedList } from "../index";
-import { Node } from "src/datastructures/deque";
+import { ListNode } from "src/datastructures/types/listnode";
 
 // Since these are already covered by Deque tests, they aren't necessary.
 // Although, in the event that the implementation stop inheriting from 
@@ -171,23 +171,23 @@ describe('DoublyLinkedList tests for non-inherited methods', () => {
   });
   test('insertNodeAt index works correctly', () => {
     const mod = 3;
-    let nodes: Node<number>[] = [];
+    let nodes: ListNode<number>[] = [];
     let offset = 0;
     for (let i = 0; i < mod * mod; i++) {
       if (i > 0 && i % mod == 0) {
         offset--;
         continue;
       }
-      nodes[i] = { val: i } as Node<number>;
+      nodes[i] = { val: i } as ListNode<number>;
       list.insertNodeAt(nodes[i], i + offset);
     }
 
     for (let i = mod; i < list.size(); i += mod) {
-      nodes[i] = { val: i } as Node<number>;
+      nodes[i] = { val: i } as ListNode<number>;
       list.insertNodeAt(nodes[i], i);
     }
 
-    nodes.unshift({ val: -1 } as Node<number>);
+    nodes.unshift({ val: -1 } as ListNode<number>);
     list.insertNodeAt(nodes[0], 0);
 
     const arr = [...list];
@@ -279,7 +279,8 @@ describe('DoublyLinkedList tests for non-inherited methods', () => {
     list.push(3);
     list.push(4);
     let expectedValue = 1;
-    list.forEach((node: Node<number>) => {
+    list.forEach((node: ListNode<number>) => {
+      if (!node) throw new Error("Unexpected null node")
       expect(node.val).toEqual(expectedValue);
       expectedValue++;
     });
@@ -306,9 +307,9 @@ describe('DoublyLinkedList tests for non-inherited methods', () => {
   });
 
   test('iterator', () => {
-    let nodes: Node<number>[] = [];
+    let nodes: ListNode<number>[] = [];
     for (let i = 0; i < 100; i++) {
-      nodes[i] = { val: i } as Node<number>;
+      nodes[i] = { val: i } as ListNode<number>;
       list.insertNodeAt(nodes[i], i);
     }
 
