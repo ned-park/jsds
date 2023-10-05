@@ -1,5 +1,5 @@
 import Deque from "./deque";
-import { ListNode } from "./types/listnode";
+import { ListNode } from "../types/listnode";
 
 export default class DoublyLinkedList<T> extends Deque<T> {
   constructor() {
@@ -14,10 +14,10 @@ export default class DoublyLinkedList<T> extends Deque<T> {
     if (index > this.size() || index < 0) {
       throw new Error(`index: ${index} out of bounds`);
     } else if (!node) {
-      throw new Error("node cannot be null");
+      throw new Error("Parameter node cannot be null");
     }
 
-    if (index == 0) {
+    if (index === 0) {
       node.next = this.head;
       if (this.head) {
         this.head.prev = node;
@@ -37,15 +37,16 @@ export default class DoublyLinkedList<T> extends Deque<T> {
     }
 
     let curr: ListNode<T> = this.head;
-    while (--index > 0) {
+    while (index-- > 0) {
       curr = curr!.next;
     }
 
-    node.next = curr!.next;
-    node.prev = curr;
+    console.log(curr!.val)
+    node.next = curr;
+    node.prev = curr!.prev;
 
-    curr!.next = node;
-    node.next!.prev = node; // since insertion isn't at thistail, node.next always exists
+    node.prev!.next = node;
+    node.next!.prev = node; // since insertion isn't at this tail, node.next always exists
 
     ++this.length;
   }
