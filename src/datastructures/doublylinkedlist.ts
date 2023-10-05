@@ -1,5 +1,5 @@
 import Deque from "./deque";
-import type { Node } from "./deque";
+import { ListNode } from "./types/listnode";
 
 export default class DoublyLinkedList<T> extends Deque<T> {
   constructor() {
@@ -7,18 +7,20 @@ export default class DoublyLinkedList<T> extends Deque<T> {
   }
 
   insertAt(val: T, index: number) {
-    this.insertNodeAt({ val: val } as Node<T>, index);
+    this.insertNodeAt({ val: val } as ListNode<T>, index);
   }
 
-  insertNodeAt(node: Node<T>, index: number) {
+  insertNodeAt(node: ListNode<T>, index: number) {
     if (index > this.size() || index < 0) {
       throw new Error(`index: ${index} out of bounds`);
+    } else if (!node) {
+      throw new Error("node cannot be null");
     }
 
     if (index == 0) {
-      node.fwd = this.head;
+      node.next = this.head;
       if (this.head) {
-        this.head.rev = node;
+        this.head.prev = node;
       }
       this.head = node;
       if (!this.tail) {
@@ -27,29 +29,29 @@ export default class DoublyLinkedList<T> extends Deque<T> {
       ++this.length;
       return;
     } else if (index === this.size()) {
-      this.tail!.fwd = node; // since this.size() != 0, tail exists
-      node.rev = this.tail;
+      this.tail!.next = node; // since this.size() != 0, tail exists
+      node.prev = this.tail;
       this.tail = node;
       ++this.length;
       return;
     }
 
-    let curr = this.head;
+    let curr: ListNode<T> = this.head;
     while (--index > 0) {
-      curr = curr!.fwd;
+      curr = curr!.next;
     }
 
-    node.fwd = curr!.fwd;
-    node.rev = curr;
+    node.next = curr!.next;
+    node.prev = curr;
 
-    curr!.fwd = node;
-    node.fwd!.rev = node; // since insertion isn't at thistail, node.fwd always exists
+    curr!.next = node;
+    node.next!.prev = node; // since insertion isn't at thistail, node.next always exists
 
     ++this.length;
   }
 
   removeAt(index: number): T | undefined {
-    if (index >= this.size() || index < 0) {
+    if (index >= this.size() || index < 0 || !this.head) {
       throw new Error("Index out of bounds");
     }
 
@@ -59,17 +61,17 @@ export default class DoublyLinkedList<T> extends Deque<T> {
       return this.pop();
     }
 
-    let curr = this.head;
+    let curr:ListNode<T> = this.head;
     while (--index > 0) {
-      curr = curr!.fwd;
+      curr = curr!.next;
     }
 
     --this.length;
 
-    curr!.fwd!.rev = curr!.rev;
-    curr!.rev!.fwd = curr!.fwd;
-    curr!.fwd = undefined;
-    curr!.rev = undefined;
+    curr!.next!.prev = curr!.prev;
+    curr!.prev!.next = curr!.next;
+    curr!.next = null;
+    curr!.prev = null;
 
     return curr!.val;
   }
@@ -79,10 +81,10 @@ export default class DoublyLinkedList<T> extends Deque<T> {
     if (!this.head) {
       return vals;
     }
-    let curr: Node<T> | undefined = this.head;
+    let curr: ListNode<T> | undefined = this.head;
     while (curr) {
       vals.push(curr.val);
-      curr = curr.fwd;
+      curr = curr.next;
     }
 
     return vals;
@@ -93,7 +95,7 @@ export default class DoublyLinkedList<T> extends Deque<T> {
     let curr = this.tail;
     while (curr) {
       vals.push(curr.val);
-      curr = curr.rev;
+      curr = curr.prev || null;
     }
 
     return vals;
@@ -102,7 +104,7 @@ export default class DoublyLinkedList<T> extends Deque<T> {
   *getNodes(node = this.head) {
     while (node) {
       yield node;
-      node = node.fwd;
+      node = node.next;
     }
 
   }
@@ -110,7 +112,7 @@ export default class DoublyLinkedList<T> extends Deque<T> {
   *getNodesInReverse(node = this.tail) {
     while (node) {
       yield node;
-      node = node.rev;
+      node = node.prev || null;
     }
   }
 
@@ -119,7 +121,7 @@ export default class DoublyLinkedList<T> extends Deque<T> {
 
     while (node) {
       yield node;
-      node = node.fwd;
+      node = node.next;
     }
 
   }
@@ -145,8 +147,8 @@ export default class DoublyLinkedList<T> extends Deque<T> {
     }
 
     let curr = this.head;
-    while (index-- > 0 && curr.fwd) {
-      curr = curr!.fwd;
+    while (index-- > 0 && curr.next) {
+      curr = curr!.next;
     }
 
     curr.val = val;
@@ -158,8 +160,8 @@ export default class DoublyLinkedList<T> extends Deque<T> {
     }
 
     let curr = this.head;
-    while (index-- > 0 && curr.fwd) {
-      curr = curr!.fwd;
+    while (index-- > 0 && curr.next) {
+      curr = curr!.next;
     }
     return curr.val;
   }

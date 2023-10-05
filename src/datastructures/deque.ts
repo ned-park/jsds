@@ -1,27 +1,24 @@
-export type Node<T> = {
-  val: T,
-  fwd?: Node<T>,
-  rev?: Node<T>
-}
+import { ListNode } from "./types/listnode";
 
 export default class Deque<T> {
-  protected head?: Node<T>;
-  protected tail?: Node<T>;
+  protected head: ListNode<T>;
+  protected tail: ListNode<T>;
   protected length: number;
 
   constructor() {
-    this.head = undefined;
-    this.tail = undefined;
+    this.head = null;
+    this.tail = null;
     this.length = 0;
   }
 
   push(val: T) {
-    const node = { val: val } as Node<T>;
+    const node = { val: val } as ListNode<T>;
+    if (!node) throw new Error("ListNode is null");
     if (this.length === 0 || !this.tail) {
       this.head = this.tail = node;
     } else {
-      node.rev = this.tail;
-      this.tail.fwd = node;
+      node.prev = this.tail;
+      this.tail.next = node;
       this.tail = node;
     }
 
@@ -34,11 +31,11 @@ export default class Deque<T> {
     }
 
     const tmp = this.tail;
-    this.tail = this.tail.rev;
+    this.tail = this.tail.prev || null;
     if (this.tail) {
-      this.tail.fwd = undefined;
+      this.tail.next = null;
     } else {
-      this.head = undefined;
+      this.head = null;
     }
 
     --this.length;
@@ -51,9 +48,9 @@ export default class Deque<T> {
     }
 
     const tmp = this.head;
-    this.head = tmp.fwd;
-    tmp.fwd = undefined;
-    this.head!.rev = undefined; // length >= 2 => new this.head exists
+    this.head = tmp.next;
+    tmp.next = null;
+    this.head!.prev = null; // length >= 2 => new this.head exists
 
     --this.length;
     return tmp.val;
@@ -67,10 +64,10 @@ export default class Deque<T> {
 
     const node = {
       val: val,
-      fwd: this.head
-    } as Node<T>;
+      next: this.head
+    } as ListNode<T>;
 
-    this.head.rev = node;
+    this.head.prev = node;
     this.head = node;
     ++this.length;
   }
@@ -101,7 +98,7 @@ export default class Deque<T> {
     let curr = this.head;
     while (curr) {
       vals.push(curr.val);
-      curr = curr.fwd; 
+      curr = curr.next; 
     }
 
     return vals.join(' <-> ');
