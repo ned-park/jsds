@@ -1,23 +1,23 @@
-type Node<T> = {
-  val: T,
-  back?: Node<T>
-}
+import LinearBase from "../baseclasses/linearbase";
+import { ListNode } from "../types/listnode";
 
-export default class Stack<T> {
-  private tail: undefined | Node<T>;
-  private length: number;
-
+export default class Stack<T> extends LinearBase<T> {
   constructor() {
-    this.tail = undefined;
-    this.length = 0;
+    super();
   }
 
   push(val: T) {
-    const node = { val: val } as Node<T>;
+    const node = {
+      val: val,
+      next: null, prev: this.tail
+    } as ListNode<T>;
+
     if (!this.tail) {
       this.tail = node;
+      this.head = node;
     } else {
-      node.back = this.tail;
+      node!.prev = this.tail;
+      this.tail.next = node;
       this.tail = node;
     }
     ++this.length;
@@ -29,8 +29,14 @@ export default class Stack<T> {
     }
 
     const tmp = this.tail;
-    this.tail = this.tail.back;
+    this.tail = this.tail!.prev || null;
+    if (this.tail) {
+      this.tail.next = null;
+    }
     --this.length;
+    if (this.length === 0) {
+      this.head = null;
+    }
 
     return tmp.val;
   }
@@ -41,21 +47,6 @@ export default class Stack<T> {
     }
 
     return this.tail.val;
-  }
-
-  size(): number {
-    return this.length;
-  }
-
-  toString(): string {
-    let vals: T[] = new Array(this.size());
-    let curr = this.tail;
-    for (let i = vals.length-1; i >= 0 && curr; i--) {
-      vals[i] = curr.val;
-      curr = curr.back;
-    }
-
-    return vals.join(' <- ');
   }
 
 }

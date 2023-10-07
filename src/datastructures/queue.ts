@@ -1,69 +1,40 @@
-type Node<T> = {
-  val: T,
-  next?: Node<T>
-}
+import LinearBase from "../baseclasses/linearbase";
 
-export default class Queue<T> {
-  private start?: Node<T>;
-  private end?: Node<T>;
-  private length: number;
-
+export default class Queue<T> extends LinearBase<T> {
   constructor() {
-    this.start = undefined;
-    this.end = undefined;
-    this.length = 0;
+    super();
   }
 
-  dequeue(): T | undefined {
-    if (!this.start) {
+  unshift(): T | undefined {
+    if (!this.head) {
       return undefined;
     }
 
-    const first = this.start;
-    this.start = this.start.next;
+    const first = this.head;
+    this.head = this.head.next;
 
     --this.length;
 
     if (this.length === 0) {
-      this.end = undefined;
+      this.tail = null;
     }
 
     return first.val;
   }
 
-  enqueue(value: T): void {
-    const node = { val: value } as Node<T>;
-    if (this.length === 0 || !this.end) {
-      this.start = this.end = node;
-    } else {
-      this.end.next = node;
-      this.end = node;
-    }
+  dequeue(): T | undefined {
+    return this.unshift();
+  }
 
-    ++this.length;
+  enqueue(value: T): void {
+    super.push(value);
   }
 
   peek(): T | undefined {
-    if (!this.start) {
+    if (!this.head) {
       return undefined;
     }
 
-    return this.start.val;
+    return this.head.val;
   }
-
-  size(): number {
-    return this.length;
-  }
-
-  toString(): string {
-    let values: T[] = [];
-    let curr = this.start;
-    while (curr) {
-      values.push(curr.val);
-      curr = curr.next;
-    }
-
-    return values.join(' -> ');
-  }
-
 }
