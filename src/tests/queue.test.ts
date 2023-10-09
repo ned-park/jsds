@@ -87,6 +87,6 @@ describe('Queue tests', () => {
     expect(q.toString()).toEqual("");
 
     points.forEach(point => q.enqueue(point));
-    expect(q.toString() == points.join(" -> "));
+    expect(q.toString() == points.join(","));
   })
 });

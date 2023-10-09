@@ -1,6 +1,8 @@
 import { ListNode } from "../types/listnode";
 import { LinkedList } from "../index";
 
+
+
 let list: LinkedList<number>;
 describe('linked list tests', () => {
   beforeEach(() => {
@@ -18,15 +20,15 @@ describe('linked list tests', () => {
   test('Test push works', () => {
     expect(list.size()).toEqual(0);
     list.push(1);
-    expect(list.getTailValue()).toEqual(1);
+    expect(list.peekTail()).toEqual(1);
     expect(list.size()).toEqual(1);
     list.push(2);
-    expect(list.getHeadValue()).toEqual(1);
-    expect(list.getTailValue()).toEqual(2);
+    expect(list.peekHead()).toEqual(1);
+    expect(list.peekTail()).toEqual(2);
     expect(list.size()).toEqual(2);
 
     list.push(3);
-    expect(list.getTailValue()).toEqual(3);
+    expect(list.peekTail()).toEqual(3);
     expect(list.size()).toEqual(3);
   });
 
@@ -41,8 +43,8 @@ describe('linked list tests', () => {
     expect(list.pop()).toEqual(3);
     expect(list.pop()).toEqual(2);
     expect(list.size()).toEqual(0);
-    expect(list.getHeadValue()).toEqual(undefined);
-    expect(list.getTailValue()).toEqual(undefined);
+    expect(list.peekHead()).toEqual(undefined);
+    expect(list.peekTail()).toEqual(undefined);
     expect(list.pop()).toEqual(undefined);
     expect(list.size()).toEqual(0);
   });
@@ -58,8 +60,8 @@ describe('linked list tests', () => {
     expect(list.shift()).toEqual(3);
     expect(list.shift()).toEqual(1);
     expect(list.size()).toEqual(0);
-    expect(list.getHeadValue()).toEqual(undefined);
-    expect(list.getTailValue()).toEqual(undefined);
+    expect(list.peekHead()).toEqual(undefined);
+    expect(list.peekTail()).toEqual(undefined);
     expect(list.shift()).toEqual(undefined);
     expect(list.size()).toEqual(0);
 
@@ -68,50 +70,50 @@ describe('linked list tests', () => {
   test('Test unshift works', () => {
     expect(list.size()).toEqual(0);
     list.unshift(1);
-    expect(list.getHeadValue()).toEqual(1);
+    expect(list.peekHead()).toEqual(1);
     expect(list.size()).toEqual(1);
     list.unshift(2);
-    expect(list.getHeadValue()).toEqual(2);
+    expect(list.peekHead()).toEqual(2);
     expect(list.size()).toEqual(2);
 
     list.unshift(3);
-    expect(list.getHeadValue()).toEqual(3);
+    expect(list.peekHead()).toEqual(3);
     expect(list.size()).toEqual(3);
   });
 
-  test('Test getHeadValue', () => {
-    expect(list.getHeadValue()).toEqual(undefined);
+  test('Test peekHead', () => {
+    expect(list.peekHead()).toEqual(undefined);
 
     list.push(1);
-    expect(list.getHeadValue()).toEqual(1);
+    expect(list.peekHead()).toEqual(1);
     list.push(2);
-    expect(list.getHeadValue()).toEqual(1);
+    expect(list.peekHead()).toEqual(1);
     list.unshift(-1);
 
-    expect(list.getHeadValue()).toEqual(-1);
+    expect(list.peekHead()).toEqual(-1);
     list.pop();
-    expect(list.getHeadValue()).toEqual(-1);
+    expect(list.peekHead()).toEqual(-1);
     list.shift();
-    expect(list.getHeadValue()).toEqual(1);
+    expect(list.peekHead()).toEqual(1);
     list.shift();
-    expect(list.getHeadValue()).toEqual(undefined);
+    expect(list.peekHead()).toEqual(undefined);
   });
 
-  test('Test getTailValue', () => {
-    expect(list.getTailValue()).toEqual(undefined);
+  test('Test peekTail', () => {
+    expect(list.peekTail()).toEqual(undefined);
 
     list.push(1);
-    expect(list.getTailValue()).toEqual(1);
+    expect(list.peekTail()).toEqual(1);
     list.push(2);
-    expect(list.getTailValue()).toEqual(2);
+    expect(list.peekTail()).toEqual(2);
     list.unshift(-1);
-    expect(list.getTailValue()).toEqual(2);
+    expect(list.peekTail()).toEqual(2);
     list.pop();
-    expect(list.getTailValue()).toEqual(1);
+    expect(list.peekTail()).toEqual(1);
     list.pop();
-    expect(list.getTailValue()).toEqual(-1);
+    expect(list.peekTail()).toEqual(-1);
     list.pop();
-    expect(list.getTailValue()).toEqual(undefined);
+    expect(list.peekTail()).toEqual(undefined);
   });
 
   test('Test toString', () => {
@@ -120,15 +122,15 @@ describe('linked list tests', () => {
     list.push(1);
     expect(list.toString()).toEqual('1');
     list.push(2);
-    expect(list.toString()).toEqual([1, 2].join(' -> '));
+    expect(list.toString()).toEqual([1, 2].join(','));
     list.push(3);
-    expect(list.toString()).toEqual([1, 2, 3].join(' -> '));
+    expect(list.toString()).toEqual([1, 2, 3].join(','));
     list.shift();
-    expect(list.toString()).toEqual([2, 3].join(' -> '));
+    expect(list.toString()).toEqual([2, 3].join(','));
     list.shift();
-    expect(list.toString()).toEqual([3].join(' -> '));
+    expect(list.toString()).toEqual([3].join(','));
     list.shift();
-    expect(list.toString()).toEqual([].join(' -> '));
+    expect(list.toString()).toEqual([].join(','));
     list.shift();
   });
 
@@ -194,14 +196,14 @@ describe('linked list tests', () => {
     }).toThrowError();
 
     list.insertAt(1, 0);
-    expect(list.getHeadValue()).toEqual(1);
+    expect(list.peekHead()).toEqual(1);
 
     list.insertAt(4, 1);
-    expect(list.getTailValue()).toEqual(4);
+    expect(list.peekTail()).toEqual(4);
 
     list.insertAt(2, 1);
     list.insertAt(3, 2);
-    expect(list.toString()).toEqual([1, 2, 3, 4].join(' -> '));
+    expect(list.toString()).toEqual([1, 2, 3, 4].join(','));
   })
 
   test('getValueAt index works correctly', () => {
@@ -278,9 +280,9 @@ describe('linked list tests', () => {
     list.push(1);
 
     list.updateAt(0, 0); // head
-    expect(list.getHeadValue()).toEqual(0);
+    expect(list.peekHead()).toEqual(0);
     list.updateAt(3, 3); // tail
-    expect(list.getTailValue()).toEqual(3);
+    expect(list.peekTail()).toEqual(3);
     list.updateAt(2, 2); // between nodes
     expect(list.getValueAt(2)).toEqual(2);
 
