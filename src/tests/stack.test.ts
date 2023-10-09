@@ -74,11 +74,11 @@ describe('Stacktests', () => {
     stack.push(1);
     stack.push(2);
     stack.push(3);
-    expect(stack.toString()).toEqual([1, 2, 3].join(' <- '));
+    expect(stack.toString()).toEqual([1, 2, 3].join(','));
     stack.pop();
-    expect(stack.toString()).toEqual([1, 2].join(' <- '));
+    expect(stack.toString()).toEqual([1, 2].join(','));
     stack.pop();
-    expect(stack.toString()).toEqual([1].join(' <- '));
+    expect(stack.toString()).toEqual([1].join(','));
     stack.pop();
     expect(stack.toString()).toEqual("");
   });

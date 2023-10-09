@@ -101,7 +101,7 @@ export default class LinkedList<T> {
       curr = curr.next;
     }
 
-    return vals.join(' -> ');
+    return vals.join(',');
   }
 
   *[Symbol.iterator]() {
@@ -245,7 +245,7 @@ export default class LinkedList<T> {
     curr!.val = val;
   }
 
-  getTailValue(): T | undefined {
+  peekTail(): T | undefined {
     if (!this.tail) {
       return undefined;
     }
@@ -253,7 +253,7 @@ export default class LinkedList<T> {
     return this.tail.val;
   }
 
-  getHeadValue(): T | undefined {
+  peekHead(): T | undefined {
     if (!this.head) {
       return undefined;
     }

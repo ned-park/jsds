@@ -13,13 +13,13 @@ export default class Stack<T> extends LinearBase<T> {
     } as ListNode<T>;
 
     if (!this.tail) {
-      this.tail = node;
-      this.head = node;
+      this.tail = this.head = node;
     } else {
       node!.prev = this.tail;
       this.tail.next = node;
       this.tail = node;
     }
+
     ++this.length;
   }
 
@@ -29,15 +29,14 @@ export default class Stack<T> extends LinearBase<T> {
     }
 
     const tmp = this.tail;
-    this.tail = this.tail!.prev || null;
+    this.tail = this.tail.prev || null;
     if (this.tail) {
       this.tail.next = null;
-    }
-    --this.length;
-    if (this.length === 0) {
+    } else {
       this.head = null;
     }
 
+    --this.length;
     return tmp.val;
   }
 
